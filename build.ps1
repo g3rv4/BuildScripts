@@ -18,7 +18,3 @@ $nuspecPath = Join-Path $publishPath buildscripts.nuspec
 
 $nupkgPath = Join-Path $packagesPath "buildscripts.$($version).nupkg"
 Compress-Archive -Path "$($publishPath)/*" -DestinationPath $nupkgPath
-
-if ($env:GITHUB_ENV) {
-    Write-Output "VERSION=$version" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-}

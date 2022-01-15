@@ -16,13 +16,12 @@ jobs:
     - uses: Azure/get-keyvault-secrets@v1.1
       with:
         keyvault: "ActionsBuild"
-        secrets: 'OctopusServerUrl, OctopusApiKey'
+        secrets: 'NuGetUsername, NuGetPassword, NuGetEndpoint'
       id: azureSecrets
-
     - name: Build project
       shell: pwsh
       run: ./build.ps1
     - name: Push it to GitHub
       run: |
-        dotnet nuget add source --username g3rv4 --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/g3rv4/index.json"
-        dotnet nuget push --skip-duplicate '.packages/*.nupkg' -k ${{ secrets.GITHUB_TOKEN }} -s GitHub
+        dotnet nuget add source --username ${{ steps.azureSecrets.outputs.NuGetUsername }} --password ${{ steps.azureSecrets.outputs.NuGetPassword }} --store-password-in-clear-text --name Target "${{ steps.azureSecrets.outputs.NuGetEndpoint }}"
+        dotnet nuget push --skip-duplicate '.build/packages/*.nupkg' -k "${{ steps.azureSecrets.outputs.NuGetUsername }}:${{ steps.azureSecrets.outputs.NuGetPassword }}" -s Target
