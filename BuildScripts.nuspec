@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>BuildScripts</id>
+    <version>$version$</version>
+    <description>My build scripts</description>
+    <authors>Gervasio Marchand Cassataro</authors>
+    <repository type="git" url="https://github.com/g3rv4/BuildScripts.git" />
+  </metadata>
+</package>
