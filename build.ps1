@@ -13,6 +13,7 @@ New-Item -Path $packagesPath -ItemType 'Container' | Out-Null
 
 dotnet tool restore
 $version = (dotnet tool run nbgv get-version -f json | ConvertFrom-Json).SimpleVersion
+Write-Host "Version is $version"
 
 Copy-Item BuildScripts $publishPath -Recurse
 (Get-Content BuildScripts.nuspec).Replace('$version$', $version) | Set-Content $nuspecPath
