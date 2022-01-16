@@ -9,17 +9,17 @@ function Build-DotNetPackage {
     )
     process {
         $basePath = Get-Location
-        $publishPath = Join-Path $basePath .publish
-        $packagesPath = Join-Path $basePath .packages
+        $buildPath = Join-Path (Get-Location) .build
+        $publishPath = Join-Path $buildPath publish
+        $packagesPath = Join-Path $buildPath packages
+        $nuspecPath = Join-Path $publishPath BuildScripts.nuspec
+
+        if (Test-Path $buildPath) {
+            Remove-Item $buildPath -Recurse -Force
+        }
         
-        if (Test-Path $publishPath -PathType Container) {
-            rm -rf $publishPath
-        }
-        if (Test-Path $packagesPath -PathType Container) {
-            rm -rf $packagesPath
-        } else {
-            New-Item -Path $packagesPath -ItemType "directory"
-        }
+        New-Item -Path $buildPath -ItemType 'Container' | Out-Null
+        New-Item -Path $packagesPath -ItemType 'Container' | Out-Null
         
         $uid = sh -c 'id -u'
         $gid = sh -c 'id -g'
