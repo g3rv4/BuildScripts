@@ -23,5 +23,5 @@ jobs:
       run: ./build.ps1
     - name: Push it to NuGet
       run: |
-        dotnet nuget add source --username ${{ steps.azureSecrets.outputs.NuGetUsername }} --password ${{ steps.azureSecrets.outputs.NuGetPassword }} --store-password-in-clear-text --name Target "${{ steps.azureSecrets.outputs.NuGetEndpoint }}"
-        dotnet nuget push --skip-duplicate '.build/packages/*.nupkg' -k "${{ steps.azureSecrets.outputs.NuGetUsername }}:${{ steps.azureSecrets.outputs.NuGetPassword }}" -s Target
+        dotnet nuget add source --store-password-in-clear-text --name Target "${{ steps.azureSecrets.outputs.NuGetEndpoint }}"
+        dotnet nuget push --skip-duplicate '.build/packages/*.nupkg' -k "${{ steps.azureSecrets.outputs.NuGetPassword }}" -s Target
