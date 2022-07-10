@@ -20,6 +20,9 @@ function Build-DotNetPackage {
         New-Item -Path $buildPath -ItemType 'Container' | Out-Null
         New-Item -Path $packagesPath -ItemType 'Container' | Out-Null
         
+        sed -i '/#local/d' _config.yml
+        sed -i 's/#prod://g' _config.yml
+        
         $uid = sh -c 'id -u'
         $gid = sh -c 'id -g'
         
