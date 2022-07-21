@@ -72,11 +72,13 @@ function Build-StaticJekyllSite {
 
         $version | ConvertTo-Json | Out-File "_data/version.json"
 
+        sed -i '/#local/d' _config.yml
+        sed -i 's/#prod://g' _config.yml
+
         $uid = sh -c 'id -u'
         $gid = sh -c 'id -g'
         
         docker run --rm -v "$($basePath):/var/site-content" g3rv4/blog-builder bash -c "/root/.rbenv/shims/jekyll build && chown -R $($uid):$($gid) /var/site-content"
-        
         
         $nuspecPath = Join-Path $sitePath "$ProjectName.nuspec"
         (Get-Content "$ProjectName.nuspec").Replace('$version$', $version) | Set-Content $nuspecPath
